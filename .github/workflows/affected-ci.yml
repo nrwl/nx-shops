@@ -1,0 +1,20 @@
+name: Run CI checks
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: CI Checks
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: bahmutov/npm-install@v1.8.34
+      - run: npx nx affected --target=lint
+      - run: npx nx affected --target=test
+      - run: npx nx affected --target=build
+      - run: npx nx affected --target=e2e

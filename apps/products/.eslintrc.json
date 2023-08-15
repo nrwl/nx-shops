@@ -24,7 +24,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "nx-example",
+            "prefix": "nx-shops",
             "style": "kebab-case"
           }
         ]

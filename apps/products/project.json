@@ -8,11 +8,12 @@
     }
   },
   "sourceRoot": "apps/products/src",
-  "prefix": "nx-example",
+  "prefix": "nx-shops",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nx/angular:webpack-browser",
       "options": {
+        "buildLibsFromSource": false,
         "aot": true,
         "outputPath": "dist/apps/products",
         "index": "apps/products/src/index.html",
@@ -22,12 +23,12 @@
         "assets": [
           "apps/products/src/_redirects",
           {
-            "input": "libs/shared/assets/src/assets",
+            "input": "libs/shared/zassets/src/assets",
             "glob": "**/*",
             "output": "assets"
           },
           {
-            "input": "libs/shared/assets/src",
+            "input": "libs/shared/zassets/src",
             "glob": "favicon.ico",
             "output": "."
           }
@@ -70,6 +71,12 @@
       },
       "outputs": ["{options.outputPath}"]
     },
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "options": {
+        "buildTarget": "products:build"
+      }
+    },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
@@ -110,7 +117,7 @@
       "options": {
         "commands": [
           {
-            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/deploy --siteName nrwl-nx-examples-products --outputPath dist/apps/products"
+            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/deploy --siteName nrwl-nx-shopss-products --outputPath dist/apps/products"
           }
         ]
       }

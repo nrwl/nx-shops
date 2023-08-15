@@ -6,7 +6,7 @@ describe('ProductElement', () => {
 
   beforeEach(() => {
     productPrice = document.createElement(
-      'nx-example-product-price'
+      'nx-shops-product-price'
     ) as ProductPriceElement;
   });
 

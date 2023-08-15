@@ -1,4 +1,8 @@
-import { JSXify } from '@nx-example/shared/jsxify';
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type JSXify<T extends Element> = Partial<
+  Omit<T, 'children'> & { children?: any[] }
+>;
+
 
 enum HeaderElementAttribute {
   Title = 'title',
@@ -8,7 +12,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      'nx-example-header': JSXify<HeaderElement>;
+      'nx-shops-header': JSXify<HeaderElement>;
     }
   }
 }
@@ -57,7 +61,7 @@ export class HeaderElement extends HTMLElement {
     const githubLink = document.createElement('a');
     const icon = document.createElement('span');
 
-    githubLink.href = 'https://github.com/nrwl/nx-examples';
+    githubLink.href = 'https://github.com/nrwl/nx-shopss';
     icon.classList.add('icon', 'icon-github');
     githubLink.appendChild(icon);
 
@@ -66,4 +70,4 @@ export class HeaderElement extends HTMLElement {
     return rightSide;
   }
 }
-customElements.define('nx-example-header', HeaderElement);
+customElements.define('nx-shops-header', HeaderElement);

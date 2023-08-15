@@ -1,15 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
 
-import '@nx-example/shared/header';
+import '@nx-shops/shared/header';
 
-import { CartCartPage } from '@nx-example/cart/cart-page';
+import { CartCartPage } from '@nx-shops/z-cart/cart-page';
 
 export const App = () => {
   return (
     <>
-      <nx-example-header />
+      <nx-shops-header />
       <Routes>
-        <Route path="/cart" element={<CartCartPage />} />
+        <Route path="/" element={<CartCartPage />} />
       </Routes>
     </>
   );

@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/shared/product/state/src",
-  "prefix": "nx-example",
+  "prefix": "nx-shops",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",

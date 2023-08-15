@@ -17,12 +17,12 @@
         "assets": [
           "apps/cart/src/_redirects",
           {
-            "input": "libs/shared/assets/src/assets",
+            "input": "libs/shared/zassets/src/assets",
             "glob": "**/*",
             "output": "assets"
           },
           {
-            "input": "libs/shared/assets/src",
+            "input": "libs/shared/zassets/src",
             "glob": "favicon.ico",
             "output": ""
           }
@@ -34,7 +34,7 @@
           "node_modules/normalize.css/normalize.css"
         ],
         "scripts": [],
-        "buildLibsFromSource": true,
+        "buildLibsFromSource": false,
         "isolatedConfig": true
       },
       "configurations": {
@@ -69,6 +69,12 @@
       },
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production"
+    },
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "options": {
+        "buildTarget": "cart:build"
+      }
     },
     "serve": {
       "executor": "@nx/webpack:dev-server",
@@ -105,7 +111,7 @@
       "options": {
         "commands": [
           {
-            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/deploy --siteName nrwl-nx-examples-cart --outputPath dist/apps/cart"
+            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/deploy --siteName nrwl-nx-shopss-cart --outputPath dist/apps/cart"
           }
         ]
       }

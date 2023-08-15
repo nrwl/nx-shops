@@ -1,0 +1,28 @@
+{
+  "name": "z-cart-cart-page",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/z-cart/cart-page/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/z-cart/cart-page/src/**/*.ts",
+          "libs/z-cart/cart-page/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "libs/z-cart/cart-page/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/libs/z-cart/cart-page"]
+    }
+  },
+  "tags": ["scope:cart", "type:feature"]
+}

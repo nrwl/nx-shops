@@ -1,1 +1,1 @@
-export const getPage = () => cy.get('nx-example-root');
+export const getPage = () => cy.get('nx-shops-root');

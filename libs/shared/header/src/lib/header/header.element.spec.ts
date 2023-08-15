@@ -6,7 +6,7 @@ describe('HeaderElement', () => {
 
   beforeEach(() => {
     headerElement = document.createElement(
-      'nx-example-header'
+      'nx-shops-header'
     ) as HeaderElement;
     headerElement.connectedCallback();
   });

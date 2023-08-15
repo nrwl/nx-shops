@@ -22,7 +22,7 @@ describe('App', () => {
         <MemoryRouter initialEntries={['/cart']}>
           <App />
         </MemoryRouter>
-      ).baseElement.querySelector('nx-example-header')
+      ).baseElement.querySelector('nx-shops-header')
     ).toBeTruthy();
   });
 });

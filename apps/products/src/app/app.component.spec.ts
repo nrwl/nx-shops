@@ -25,7 +25,7 @@ describe('AppComponent', () => {
 
   it(`should render the header`, () => {
     expect(
-      fixture.nativeElement.querySelector('nx-example-header')
+      fixture.nativeElement.querySelector('nx-shops-header')
     ).toBeTruthy();
   });
 

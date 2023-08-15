@@ -22,6 +22,16 @@
         "passWithNoTests": true
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/product/ui"]
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/product/ui",
+        "main": "libs/shared/product/ui/src/index.ts",
+        "tsConfig": "libs/shared/product/ui/tsconfig.lib.json",
+        "assets": []
+      }
     }
   },
   "tags": ["scope:shared", "type:ui"]

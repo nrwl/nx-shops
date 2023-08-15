@@ -1,4 +1,7 @@
-import { JSXify } from '@nx-example/shared/jsxify';
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type JSXify<T extends Element> = Partial<
+  Omit<T, 'children'> & { children?: any[] }
+>;
 
 enum ProductPriceElementAttribute {
   Value = 'value',
@@ -8,7 +11,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      'nx-example-product-price': JSXify<ProductPriceElement>;
+      'nx-shops-product-price': JSXify<ProductPriceElement>;
     }
   }
 }
@@ -36,4 +39,4 @@ export class ProductPriceElement extends HTMLElement {
     }
   }
 }
-customElements.define('nx-example-product-price', ProductPriceElement);
+customElements.define('nx-shops-product-price', ProductPriceElement);

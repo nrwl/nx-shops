@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
-import '@nx-example/shared/header';
+import '@nx-shops/shared/header';
 
 @Component({
-  selector: 'nx-example-root',
+  selector: 'nx-shops-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
