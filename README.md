@@ -1,102 +1,45 @@
-# NxExample
+# NxCloud CI example repo
 
-This project was generated using [Nx](https://nx.dev).
+This repo is based on the [Nx Examples](https://github.com/nrwl/nx-examples) repo 
+but setup in a way to illustrate some of the benefits of using Nx and NxCloud together to setup CI.
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+The e2e targets are setup to serve the app statically from dist:
 
-🔎 **Powerful, Extensible Dev Tools**
+<img src="static_e2e.png">
 
-## Quick Start & Documentation
+this is how the apps are served statically:
 
-[Nx Documentation](https://nx.dev)
+```json
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "options": {
+        "buildTarget": "cart:build"
+      }
+    },
+```
 
-[30-minute video showing all Nx features](https://nx.dev/getting-started/what-is-nx)
+This then results in this project graph:
 
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
+<img src="proj_graph.png">
 
-## Adding capabilities to your workspace
+The DTE solution can then be explained as such: https://youtu.be/NZF0ZJpgaJM?si=gLpTnTdygB1gx7wI&t=516
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+[Here is an example DTE config](.github/workflows/ci.yml) that is applicable to most CI providers.
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+In the above yaml, if you remove the line that activate DTE:
 
-Below are our core plugins:
+```yaml
+# - run: npx nx-cloud start-ci-run --stop-agents-after="e2e"
+```
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nx/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nx/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nx/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+it will go from finishing in 3 minutes, to finishing in 9 minutes. That is because we can now parallelise the tasks across machines.
+So it also illustrates the CI time savings we get from DTE.
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+You can also use [the non-DTE CI config](.github/workflows/affected-ci.yml):
+- without NxCloud
+- with NxCloud
 
-## Generate an application
+and you should notice a difference of 8-9 minutes down to 1-2 minutes because of caching.
+So it can also be used to explain the caching benefits.
 
-Run `nx g @nx/react:app my-app` to generate an application.
 
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `nx g @nx/react:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@nx-shops/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nx/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Computation Caching in the Cloud
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-[Nx Cloud](https://nx.app/)
-
-[Computation Caching Fundamentals](https://blog.nrwl.io/computation-caching-the-fundamentals-behind-nxs-lightning-fast-execution-dc761fe41eb8)
-
-[Computation Caching with NX](https://nx.dev/latest/core-concepts/computation-caching)
