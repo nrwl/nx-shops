@@ -168,7 +168,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - check-formatting
             - lint
