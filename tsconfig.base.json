@@ -38,17 +38,15 @@
       ],
       "@nx-shops/shared/product/ui": ["libs/shared/product/ui/src/index.ts"],
       "@nx-shops/shared/styles": ["libs/shared/styles/src/index.ts"],
-      "@nx-shops/shared/zcart/state/react": [
-        "libs/shared/zcart/state/src/react.ts"
-      ],
-      "@nx-shops/shared/ze2e-utils": ["libs/shared/ze2e-utils/src/index.ts"],
-      "@nx-shops/z-cart/cart-page": ["libs/z-cart/cart-page/src/index.ts"],
+      "@nx-shops/shared/ze2e-utils": ["libs/shared/e2e-utils/src/index.ts"],
+      "@nx-shops/cart/cart-page": ["libs/cart/cart-page/src/index.ts"],
       "@nx-shops/z-products/home-page": [
-        "libs/z-products/home-page/src/index.ts"
+        "libs/products/home-page/src/index.ts"
       ],
       "@nx-shops/z-products/product-detail-page": [
-        "libs/z-products/product-detail-page/src/index.ts"
-      ]
+        "libs/products/product-detail-page/src/index.ts"
+      ],
+      "shared-cart-state": ["libs/shared/cart/state/src/react.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

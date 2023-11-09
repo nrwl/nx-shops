@@ -23,12 +23,12 @@
         "assets": [
           "apps/products/src/_redirects",
           {
-            "input": "libs/shared/zassets/src/assets",
+            "input": "libs/shared/assets/src/assets",
             "glob": "**/*",
             "output": "assets"
           },
           {
-            "input": "libs/shared/zassets/src",
+            "input": "libs/shared/assets/src",
             "glob": "favicon.ico",
             "output": "."
           }
