@@ -17,6 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nx-shops/cart/cart-page": ["libs/cart/cart-page/src/index.ts"],
       "@nx-shops/shared/cart/state/react": [
         "libs/shared/cart/state/src/react.ts"
       ],
@@ -39,13 +40,13 @@
       "@nx-shops/shared/product/ui": ["libs/shared/product/ui/src/index.ts"],
       "@nx-shops/shared/styles": ["libs/shared/styles/src/index.ts"],
       "@nx-shops/shared/ze2e-utils": ["libs/shared/e2e-utils/src/index.ts"],
-      "@nx-shops/cart/cart-page": ["libs/cart/cart-page/src/index.ts"],
-      "@nx-shops/z-products/home-page": [
-        "libs/products/home-page/src/index.ts"
-      ],
-      "@nx-shops/z-products/product-detail-page": [
+      "products-product-detail-page": [
         "libs/products/product-detail-page/src/index.ts"
       ],
+      "products-product-detail-page-old": [
+        "libs/products/product-detail-page-old/src/index.ts"
+      ],
+      "pruoducts-home-page-old": ["libs/products/home-page-old/src/index.ts"],
       "shared-cart-state": ["libs/shared/cart/state/src/react.ts"]
     }
   },

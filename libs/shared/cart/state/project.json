@@ -18,16 +18,12 @@
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/cart/state/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/shared/cart/state/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/cart/state"]
     }
   },
   "generators": {
-    "@nx/angular:component": {
-      "styleext": "scss"
-    }
   },
   "tags": ["scope:shared", "type:state"]
 }

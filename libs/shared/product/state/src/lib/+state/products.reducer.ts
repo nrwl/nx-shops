@@ -1,8 +1,6 @@
 import { products } from '@nx-shops/shared/product/data';
 import { Product } from '@nx-shops/shared/product/types';
 
-import { ProductsAction } from './products.actions';
-
 export const PRODUCTS_FEATURE_KEY = 'products';
 
 export interface ProductsState {
@@ -19,7 +17,7 @@ export const initialState: ProductsState = {
 
 export function productsReducer(
   state: ProductsState = initialState,
-  action: ProductsAction
+  action: { type?: string }
 ): ProductsState {
   switch (action.type) {
     default: {
