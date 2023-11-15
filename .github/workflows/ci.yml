@@ -32,4 +32,5 @@ jobs:
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
           key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
-      - run: pnpm nx build cart
+      - run: pnpm nx affected -t lint,test,build --parallel=3 --configuration=ci
+      - run: pnpm nx affected -t e2e --parallel=1
