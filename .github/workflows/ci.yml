@@ -1,0 +1,15 @@
+name: CI
+on:
+  push:
+    branches:
+      # Change this if your primary branch is not main
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - run:
+          name: Print a message
+          command: echo "Hello GitHub Actions!"
