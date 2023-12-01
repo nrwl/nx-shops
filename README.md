@@ -41,5 +41,6 @@ You can also use [the non-DTE CI config](.github/workflows/affected-ci.yml):
 
 and you should notice a difference of 8-9 minutes down to 1-2 minutes because of caching.
 So it can also be used to explain the caching benefits.
+So it can also be used to explain the caching benefits.
 
 
