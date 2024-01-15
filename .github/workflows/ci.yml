@@ -30,4 +30,4 @@ jobs:
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
           key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm nx build cart
+      - run: pnpm nx run-many -t build
