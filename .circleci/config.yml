@@ -7,6 +7,7 @@ jobs:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
+      - run: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
       - restore_cache:
           key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
       - run:
@@ -19,8 +20,9 @@ jobs:
             - ~/.cache/Cypress
       - nx/set-shas
 
-      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t lint,test,build --parallel=3 --configuration=ci
-      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t e2e --parallel=1
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t lint test build --parallel=3
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t e2e-ci --parallel=1
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t deploy --no-agents # run without distribution
 workflows:
   build:
     jobs:
