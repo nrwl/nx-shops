@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  main:
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - run:
+          name: Print a message
+          command: echo "Hello Circle CI!"
+
+workflows:
+  version: 2
+
+  ci:
+    jobs:
+      - main
