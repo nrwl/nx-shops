@@ -7,7 +7,7 @@ jobs:
       - image: cimg/node:lts-browsers
     steps:
       - checkout
-      - run: pnpm nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
+      - run: pnpm exec nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
       - restore_cache:
           key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
       - run:
