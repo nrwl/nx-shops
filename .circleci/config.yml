@@ -1,17 +1,27 @@
 version: 2.1
-
+orbs:
+  nx: nrwl/nx@1.5.1
 jobs:
   main:
     docker:
       - image: cimg/node:lts-browsers
     steps:
+      - checkout
+      - restore_cache:
+          key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
       - run:
-          name: Print a message
-          command: echo "Hello Circle CI!"
+          name: install dependencies
+          command: pnpm install --frozen-lockfile
+      - save_cache:
+          key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - node_modules
+            - ~/.cache/Cypress
+      - nx/set-shas
 
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t lint,test,build --parallel=3 --configuration=ci
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t e2e --parallel=1
 workflows:
-  version: 2
-
-  ci:
+  build:
     jobs:
       - main
