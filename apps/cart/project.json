@@ -93,9 +93,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/cart/**/*.{ts,tsx,js,jsx}"]
-      },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
