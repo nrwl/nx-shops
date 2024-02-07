@@ -1,0 +1,29 @@
+version: 2.1
+orbs:
+  nx: nrwl/nx@1.5.1
+jobs:
+  main:
+    docker:
+      - image: cimg/node:lts-browsers
+    steps:
+      - checkout
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
+      - restore_cache:
+          key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
+      - run:
+          name: install dependencies
+          command: pnpm install --frozen-lockfile
+      - save_cache:
+          key: npm-dependencies-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - node_modules
+            - ~/.cache/Cypress
+      - nx/set-shas
+
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t lint test build --parallel=3
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t e2e-ci --parallel=1
+      - run: pnpm nx affected --base=$NX_BASE --head=$NX_HEAD -t deploy --no-agents # run without distribution
+workflows:
+  build:
+    jobs:
+      - main
