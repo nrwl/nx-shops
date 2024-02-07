@@ -1,0 +1,16 @@
+{
+  "name": "playwright-app",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "playwright-app/src",
+  "projectType": "application",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "playwright-app/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
