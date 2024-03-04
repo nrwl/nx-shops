@@ -85,5 +85,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "parallel": 1
+  "parallel": 1,
+  "nxCloudAccessToken": "NDExYTMzMzEtMTc2Yy00ODUxLWE5YmUtY2EwMmJmM2MwODEyfHJlYWQtd3JpdGU="
 }
