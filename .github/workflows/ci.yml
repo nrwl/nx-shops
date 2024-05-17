@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      #  NPM のキャッシュ
+      - name: Restore cached npm dependencies
+        id: cache-dependencies-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm install --frozen-lockfile
+      - name: Cache npm dependencies
+        id: cache-dependencies-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
+      - uses: nrwl/nx-set-shas@v3
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git branch --track main origin/main
+        if: ${{ github.event_name == 'pull_request' }}
+
+      - run: pnpm nx affected -t lint test build --parallel=3
+      - name: Install Cypress binary
+        run: npx cypress install
+      - run: pnpm nx affected -t e2e --parallel=1

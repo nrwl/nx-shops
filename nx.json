@@ -1,11 +1,7 @@
 {
-  "affected": {
-    "defaultBase": "origin/main"
-  },
+  "affected": { "defaultBase": "origin/main" },
   "cli": {
-    "warnings": {
-      "versionMismatch": false
-    },
+    "warnings": { "versionMismatch": false },
     "packageManager": "pnpm",
     "analytics": false
   },
@@ -14,13 +10,9 @@
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
-    "@nx/angular:library": {
-      "unitTestRunner": "jest"
-    },
+    "@nx/angular:library": { "unitTestRunner": "jest" },
     "@nx/angular": {
-      "convert-tslint-to-eslint": {
-        "removeTSLintIfNoMoreTSLintTargets": true
-      }
+      "convert-tslint-to-eslint": { "removeTSLintIfNoMoreTSLintTargets": true }
     },
     "@nx/react": {
       "application": {
@@ -29,9 +21,7 @@
         "bundler": "webpack",
         "babel": true
       },
-      "component": {
-        "style": "css"
-      },
+      "component": { "style": "css" },
       "library": {
         "style": "css",
         "linter": "eslint",
@@ -58,24 +48,17 @@
     "@nx/jest:jest": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "cache": true,
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
+      "options": { "passWithNoTests": true },
+      "configurations": { "ci": { "ci": true, "codeCoverage": true } }
     },
-    "@nx/vite:test": {
-      "cache": true,
-      "inputs": ["default", "^production"]
-    }
+    "@nx/vite:test": { "cache": true, "inputs": ["default", "^production"] }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"],
+    "sharedGlobals": [
+      "{workspaceRoot}/babel.config.json",
+      "{workspaceRoot}/.github/workflows/ci.yml"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -85,5 +68,6 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "parallel": 1
+  "parallel": 1,
+  "nxCloudAccessToken": "ZDk4ZmYwNmQtMzkyNi00YmRlLWJjYmItYWRkYzc3Nzc3MjgwfHJlYWQtd3JpdGU="
 }
