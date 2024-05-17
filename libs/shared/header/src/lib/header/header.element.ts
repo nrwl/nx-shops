@@ -3,7 +3,6 @@ export type JSXify<T extends Element> = Partial<
   Omit<T, 'children'> & { children?: object[] }
 >;
 
-
 enum HeaderElementAttribute {
   Title = 'title',
 }
@@ -27,7 +26,7 @@ export class HeaderElement extends HTMLElement {
     this.setAttribute(HeaderElementAttribute.Title, title);
   }
 
-  private titleElement = document.createElement('h2');
+  private readonly titleElement = document.createElement('h2');
 
   connectedCallback() {
     this.appendChild(this.createLeftSide());
