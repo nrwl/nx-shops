@@ -31,3 +31,4 @@ jobs:
             ~/.cache/Cypress # needed for the Cypress binary
           key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm nx build cart
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true 
