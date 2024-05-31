@@ -2,7 +2,6 @@ name: CI
 on:
   push:
     branches:
-      # Change this if your primary branch is not mainn
       - main
   pull_request:
 
@@ -13,11 +12,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Setup pnpm
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Restore cached npm dependencies
+        id: cache-dependencies-restore
         uses: actions/cache/restore@v3
         with:
           path: |
@@ -26,10 +25,17 @@ jobs:
           key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm install --frozen-lockfile
       - name: Cache npm dependencies
+        id: cache-dependencies-save
         uses: actions/cache/save@v3
         with:
           path: |
             node_modules
             ~/.cache/Cypress # needed for the Cypress binary
-          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm nx build cart
+          key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
+      - uses: nrwl/nx-set-shas@v3
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git branch --track main origin/main
+        if: ${{ github.event_name == 'pull_request' }}
+
+      - run: pnpm nx affected -t lint test build --parallel=3
+      - run: pnpm nx affected -t e2e --parallel=1
