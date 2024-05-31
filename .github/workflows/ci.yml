@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches:
-      # Change this if your primary branch is not main
+      # Change this if your primary branch is not mainn
       - main
   pull_request:
 
