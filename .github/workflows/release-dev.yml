@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  readAffected:
+    runs-on: ubuntu-latest
+    outputs:
+      affected: ${{ steps.readAffected.outputs.affected }}
+    steps:
+      - name: Read affected apps
+        id: readAffected
+        uses: ./.github/actions/affected/read
+        with:
+          artifact_path: "${{ github.workspace }}/download-artifact"
+  release:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && (github.base_ref == 'develop' || startsWith(github.base_ref, 'release/'))
+    needs: [readAffected]
+    strategy:
+      fail-fast: false
+      matrix:
+        phase: [alpha, beta, rc]
+        application_name: ${{ fromJSON(needs.readAffected.outputs.affected) }}
+    concurrency:
+      group: ${{ github.workflow }}-${{github.base_ref}}-${{ matrix.application_name }}-${{ matrix.phase }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Deploy
+        uses: ./.github/actions/deploy
+        with:
+          phase: ${{ matrix.phase }}
+          project: ${{ matrix.application_name }}

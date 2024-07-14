@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release/*
+      - hotfix/*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  save-cache:
+    runs-on: runner-large
+    steps:
+      - uses: ./.github/actions/setup/pnpm/save-cache

@@ -1,0 +1,101 @@
+name: Upload affected apps
+description: Upload affected apps to be used in other jobs
+
+
+inputs:
+  artifact_path:
+    description: The path to the artifact
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+    - name: Setup artifact path
+      shell: bash
+      run: echo "ARTIFACT_PATH=${{ inputs.artifact_path }}" >> $GITHUB_ENV
+    - name: Find opened release branches
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const releaseRegex = new RegExp('^(?:release|hotfix)/([\\w-]+)-\\d+.\\d+.\\d+$');
+          const baseBranch = '${{ github.event.pull_request.base.ref }}';
+
+          if (releaseRegex.test(baseBranch)) {
+            const [, app] = releaseRegex.exec(baseBranch);
+
+            console.log('Release app:', app);
+            core.exportVariable('AFFECTED_APPS', app);
+
+            return;
+          } else {
+            const { data: pulls = [] } = await github.rest.pulls.list({
+              ...context.repo,
+              state: 'open',
+              base: 'main',
+            });
+
+            const apps = pulls
+              .map(pull => {
+                const matched = releaseRegex.exec(pull.head.ref);
+                if (matched) {
+                  return matched[1];
+                }
+
+                return null;
+              })
+              .filter(Boolean);
+
+            console.log('Pending release branches:', apps);
+            core.exportVariable('EXCLUDES', apps.join(','));
+          }
+    - name: PNPM install
+      uses: ./.github/actions/setup/pnpm/install
+    - name: Getting affected
+      shell: bash
+      run: |
+        if [[ ! -z ${AFFECTED_APPS} ]]
+        then
+          AFFECTED_APPS=${AFFECTED_APPS}
+        else
+          NX_VERSION_INFO=$(pnpm -s nx --version)
+          NX_MAJOR_VERION=$(echo $NX_VERSION_INFO | awk -F'v' '/Local/ {print $2}' | cut -d. -f1)
+          NX_AFFECTED_COMMAND="print-affected"
+
+          if [ "$NX_MAJOR_VERION" -ge 19 ]; then
+            NX_AFFECTED_COMMAND="show projects --affected"
+          fi
+
+          AFFECTED_APPS_STRING=$(pnpm -s nx $NX_AFFECTED_COMMAND --type=app --select=projects --base=origin/${{ github.event.pull_request.base.ref }} --head=${{ github.event.pull_request.head.sha }} --exclude=$EXCLUDES)
+          AFFECTED_APPS=$(echo $AFFECTED_APPS_STRING | jq -R -s -c 'split(",") | map(. | gsub("^\\s+|\\s+$";""))')
+        fi
+
+        echo $AFFECTED_APPS > $ARTIFACT_PATH
+
+        AFFECTED_APPS=$([[ -z $AFFECTED_APPS ]] && echo "Nothing" || echo "$AFFECTED_APPS")
+        echo "EXCLUDES=$EXCLUDES" >> "$GITHUB_ENV"
+        echo "AFFECTED_APPS=$AFFECTED_APPS" >> "$GITHUB_ENV"
+    - name: Upload Artifact for affected
+      uses: actions/upload-artifact@v3
+      with:
+        name: affected#${{ github.event.pull_request.number }}
+        path: ${{ env.ARTIFACT_PATH }}
+    - name: Create & Update comment
+      uses: ./.github/actions/github/pr-comment
+      with:
+        comment-author: 'github-actions[bot]'
+        body-includes: Affected to deploy
+        body: |
+          ## Affected to deploy
+
+          * affected: `${{ env.AFFECTED_APPS }}`
+
+          ## Exclude
+          * Pending for release: `${{ env.EXCLUDES }}`

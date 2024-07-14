@@ -1,0 +1,33 @@
+name: Application build
+description: Build application on nx projects
+
+inputs:
+  application_name:
+    description: The name of an application which will be build
+    required: true
+  phase:
+    description: The phase of an application which will be build
+    required: true
+
+runs:
+  using: composite
+  steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    -
+      name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+    -
+      name: PNPM install
+      uses: ./.github/actions/setup/pnpm/install
+    - name: Build & Deploy Jenkins
+      shell: bash
+      run: |
+        export NEXT_PUBLIC_COMMIT_HASH=${{ github.sha }}
+        export NEXT_PUBLIC_PHASE=${{ inputs.phase }}
+        pnpm nx build ${{ inputs.application_name }}

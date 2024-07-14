@@ -1,0 +1,46 @@
+name: Save Cache for pnpm
+description: Save cache for pnpm
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Enable corepack
+      shell: bash
+      run: |
+        corepack enable
+        echo "corepack enabled"
+
+    - name: Get pnpm store directory
+      id: pnpm-config
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - name: Restore cached dependencies
+      id: restore-cache
+      uses: actions/cache/restore@v3
+      with:
+        path: ${{ steps.pnpm-config.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      if: steps.restore-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Cache dependencies
+      if: steps.restore-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v3
+      with:
+        path: ${{ steps.pnpm-config.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}

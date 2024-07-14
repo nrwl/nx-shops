@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+    inputs:
+      projects:
+        description: 'Target Apps'
+        required: true
+        type: choice
+        options:
+          - cart
+      phase:
+        description: 'Target Phase'
+        required: true
+        type: choice
+        options:
+          - alpha
+          - beta
+          - rc
+          - real
+
+jobs:
+  releaseManual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Deploy Manually
+        uses: ./.github/actions/deploy
+        with:
+          phase: ${{ inputs.phase }}
+          project: ${{ inputs.projects }}
+

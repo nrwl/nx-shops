@@ -1,0 +1,38 @@
+name: PNPM install
+description: Run pnpm install with cache enabled
+
+inputs:
+  use-cache:
+    description: 'Restore cache for dependencies of packages'
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Enable corepack
+      shell: bash
+      run: |
+        corepack enable
+        echo "corepack enabled"
+
+    - name: Get pnpm store directory
+      if: ${{ inputs.use-cache == 'true'}}
+      id: pnpm-config
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - name: Restore cached dependencies
+      if: ${{ inputs.use-cache == 'true'}}
+      id: restore-cache
+      uses: actions/cache/restore@v3
+      with:
+        path: ${{ steps.pnpm-config.outputs.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

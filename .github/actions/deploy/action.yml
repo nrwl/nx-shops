@@ -1,0 +1,49 @@
+name: Full deploy apps
+description: This actions is fully deploy scripts for apps
+
+inputs:
+  phase:
+    description: The phase of the deployment
+    required: true
+  project:
+    description: The project name
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Check if specific file exists
+      shell: bash
+      id: check_file
+      run: |
+        if [ ! -f apps/${{ inputs.project }}/Dockerfile ]; then
+        echo "Dockerfile file does not exist, stopping the workflow."
+        echo "end_early=true" >> $GITHUB_ENV
+        exit 0
+        fi
+    - name: Build projects
+      if: env.end_early != 'true'
+      uses: ./.github/actions/application-build
+      with:
+        application_name: ${{ inputs.project }}
+        phase: ${{ inputs.phase }}
+    - name: Set docker tag
+      shell: bash
+      id: set_tag
+      if: env.end_early != 'true'
+      run: |
+        DOCKER_TAG="${{ inputs.phase }}.${{ github.sha }}"
+        echo "tag=$DOCKER_TAG" >> $GITHUB_ENV
+        echo "tag=$DOCKER_TAG" >> $GITHUB_OUTPUT
+#    - name: Docker build & Push
+#    - name: Update manifest
+
