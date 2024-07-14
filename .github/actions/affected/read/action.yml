@@ -36,9 +36,9 @@ runs:
       run: |
         # Get affected apps
         AFFECTED_APPS=$(cat $ARTIFACT_PATH/env)
-        
+
         EXCLUDE_LIST="${{ inputs.exclude }}"
-    
+
         # Convert exclude list to array (newline-separated)
         if [ -n "$EXCLUDE_LIST" ]; then
           IFS=$'\n' read -r -a EXCLUDE_ARRAY <<<"$EXCLUDE_LIST"
@@ -52,5 +52,6 @@ runs:
         done
 
         AFFECTED_LIST=$(echo "$AFFECTED_LIST" | jq -Rsc 'split("\n")[:-1]')
-        echo $AFFECTED_LIST
+        echo "EXCLUDE_LIST $EXCLUDE_LIST"
+        echo "$AFFECTED LIST $AFFECTED_LIST"
         echo "AFFECTED=$AFFECTED_LIST" >> $GITHUB_OUTPUT

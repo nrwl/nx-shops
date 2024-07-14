@@ -80,6 +80,8 @@ runs:
         echo $AFFECTED_APPS > $ARTIFACT_PATH
 
         AFFECTED_APPS=$([[ -z $AFFECTED_APPS ]] && echo "Nothing" || echo "$AFFECTED_APPS")
+        echo "EXCLUDE LIST $EXCLUDES"
+        echo "AFFECTED APPS $AFFECTED_APPS"
         echo "EXCLUDES=$EXCLUDES" >> "$GITHUB_ENV"
         echo "AFFECTED_APPS=$AFFECTED_APPS" >> "$GITHUB_ENV"
     - name: Upload Artifact for affected
