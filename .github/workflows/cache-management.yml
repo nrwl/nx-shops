@@ -12,6 +12,6 @@ concurrency:
 
 jobs:
   save-cache:
-    runs-on: runner-large
+    runs-on: ubuntu-latest
     steps:
       - uses: ./.github/actions/setup/pnpm/save-cache

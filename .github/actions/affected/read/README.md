@@ -9,7 +9,7 @@
 
 | Key           | Purpose                                         | Required | Default                       | Example                                                         |
 |---------------|-------------------------------------------------|----------|-------------------------------|-----------------------------------------------------------------|
-| artifact_path | The path to the artifact                        | true     | -                             | /actions-runner/gcs-cms-web/download-artifact                   |
+| artifact_path | The path to the artifact                        | true     | -                             | /actions-runner/cms-web/download-artifact                       |
 | workflow      | The workflow file to download the artifact from | false    | verification_pull_request.yml |                                                                 |
 | exclude       | The workflow file to exclude from the affected  | false    | -                             | exclude: \| <br /> &nbsp;&nbsp;campaign<br /> &nbsp;&nbsp;guide |                                       
 

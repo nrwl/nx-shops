@@ -7,9 +7,9 @@
 
 ## Inputs
 
-| Key                 | Purpose                          | Required | Default | Example                                |
-|---------------------|----------------------------------|----------|---------|----------------------------------------|
-| artifact_path       | The path to the artifact         | true     | - | /actions-runner/gcs-cms-web/env |
+| Key                 | Purpose                          | Required | Default | Example                     |
+|---------------------|----------------------------------|----------|---------|-----------------------------|
+| artifact_path       | The path to the artifact         | true     | - | /actions-runner/cms-web/env |
 
 
 ## Outputs
