@@ -16,7 +16,6 @@
     "nx": "nx"
   },
   "private": true,
-  "packageManager": "pnpm@8.9.2",
   "dependencies": {
     "@emotion/babel-plugin": "11.11.0",
     "@emotion/react": "11.11.1",
