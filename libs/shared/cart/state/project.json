@@ -4,16 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/cart/state/src",
   "prefix": "nx-shops",
+  "tags": ["scope:shared", "type:state"],
+  "generators": {},
   "targets": {
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": [
-          "libs/shared/cart/state/src/**/*.ts",
-          "libs/shared/cart/state/src/**/*.html"
-        ]
-      },
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -22,8 +17,5 @@
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/cart/state"]
     }
-  },
-  "generators": {
-  },
-  "tags": ["scope:shared", "type:state"]
+  }
 }

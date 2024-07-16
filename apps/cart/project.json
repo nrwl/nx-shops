@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/cart/src",
   "projectType": "application",
+  "tags": ["type:app", "scope:cart"],
+  "implicitDependencies": ["shared-assets", "shared-styles"],
   "generators": {},
   "targets": {
     "build": {
@@ -92,11 +94,7 @@
       "defaultConfiguration": "development"
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "options": {
-        "lintFilePatterns": ["apps/cart/**/*.{ts,tsx,js,jsx}"]
-      },
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -115,7 +113,5 @@
         ]
       }
     }
-  },
-  "tags": ["type:app", "scope:cart"],
-  "implicitDependencies": ["shared-assets", "shared-styles"]
+  }
 }
