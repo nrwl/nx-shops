@@ -1,4 +1,4 @@
-name: test-flow
+name: test-flow-new
 
 on:
   push:
